@@ -10,7 +10,7 @@ const DB = process.env.DATABASE.replace(
 );
 const local = process.env.DATABASE_LOCAL;
 
-mongoose.connect(local).then(() => console.log('DB connection successful!'));
+mongoose.connect(DB).then(() => console.log('DB connection successful!'));
 
 const blogSchema = new mongoose.Schema({
   title: String, // String is shorthand for {type: String}
@@ -28,8 +28,12 @@ const blogSchema = new mongoose.Schema({
 const Blog = mongoose.model('Blog', blogSchema);
 
 const blogresult = Blog.create({
-  title: 'hey ok s333 ',
+  title: 'let start s333 ',
   author: 'mohsin'
+});
+
+blogresult.then(res => {
+  console.log(res);
 });
 /*
 const firstblog = new Blog({ title: 'hey 33', author: 'mohsin' });
