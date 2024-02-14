@@ -12,29 +12,6 @@ const local = process.env.DATABASE_LOCAL;
 
 mongoose.connect(DB).then(() => console.log('DB connection successful!'));
 
-const blogSchema = new mongoose.Schema({
-  title: String, // String is shorthand for {type: String}
-  author: String,
-  body: String,
-  comments: [{ body: String, date: Date }],
-  date: { type: Date, default: Date.now },
-  hidden: Boolean,
-  meta: {
-    votes: Number,
-    favs: Number
-  }
-});
-
-const Blog = mongoose.model('Blog', blogSchema);
-
-const blogresult = Blog.create({
-  title: 'let start s333 ',
-  author: 'mohsin'
-});
-
-blogresult.then(res => {
-  console.log(res);
-});
 /*
 const firstblog = new Blog({ title: 'hey 33', author: 'mohsin' });
 
