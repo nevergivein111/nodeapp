@@ -11,7 +11,7 @@ exports.checkID = (req, res, next, val) => {
   if (req.params.id * 1 > tours.length) {
     return res.status(404).json({
       status: 'fail',
-      message: 'Invalid ID'
+      message: 'Invalid ID',
     });
   }
   next();
@@ -21,7 +21,7 @@ exports.checkBody = (req, res, next) => {
   if (!req.body.name || !req.body.price) {
     return res.status(400).json({
       status: 'fail',
-      message: 'Missing name or price'
+      message: 'Missing name or price',
     });
   }
   next();
@@ -34,22 +34,22 @@ exports.getAllTours = async (req, res) => {
     requestedAt: req.requestTime,
     results: tours.length,
     data: {
-      tours
-    }
+      tours,
+    },
   });
 };
 
 exports.getTour = async (req, res) => {
-  //const id = req.params.id * 1;
+  // const id = req.params.id * 1;
   const tour = await Tour.findById(req.params.id);
 
-  //const tour = tours.find(el => el.id === id);
+  // const tour = tours.find(el => el.id === id);
 
   res.status(200).json({
     status: 'success',
     data: {
-      tour
-    }
+      tour,
+    },
   });
 };
 
@@ -61,13 +61,13 @@ exports.createTour = async (req, res) => {
     res.status(201).json({
       status: 'success',
       data: {
-        tour: newTour
-      }
+        tour: newTour,
+      },
     });
   } catch (err) {
     res.status(400).json({
       status: 'failed',
-      message: err
+      message: err,
     });
   }
 };
@@ -75,21 +75,22 @@ exports.createTour = async (req, res) => {
 exports.updateTour = async (req, res) => {
   const tours = await Tour.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-    runValidators: true
+    runValidators: true,
   });
   console.log(tours);
 
   res.status(200).json({
     status: 'success',
     data: {
-      tour: tours
-    }
+      tour: tours,
+    },
   });
 };
 
-exports.deleteTour = (req, res) => {
-  res.status(204).json({
-    status: 'success',
-    data: null
+exports.deleteTour = async (req, res) => {
+  const results = await Tour.findByIdAndDelete(req.params.id);
+  res.status(200).json({
+    status: results,
+    data: null,
   });
 };
