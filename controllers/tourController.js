@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Tour = require('../models/tourModel');
+const APIFeatures = require('../utils/apiFeatures');
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
@@ -28,7 +29,32 @@ exports.checkBody = (req, res, next) => {
 };
 
 exports.getAllTours = async (req, res) => {
-  const tours = await Tour.find(req.params.id);
+  const features = new APIFeatures(Tour, req.query).filter();
+  const tours = await features.query;
+
+  /*const features = new APIFeatures(Tour.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const queryObj = { ...req.query };
+  const excludedFields = ['page', 'sort', 'limit', 'fields'];
+  excludedFields.forEach((el) => delete queryObj[el]);
+
+  let queryStr = JSON.stringify(queryObj);
+  queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+
+  //this.query = this.query.find(JSON.parse(queryStr));
+
+  let query = Tour.find(JSON.parse(queryStr));
+  if (req.query.sort) {
+    query = query.sort(req.query.sort);
+  }
+  const tours = await query;
+
+  */
+  //const tours = [2, 4];
   res.status(200).json({
     status: 'success',
     requestedAt: req.requestTime,
